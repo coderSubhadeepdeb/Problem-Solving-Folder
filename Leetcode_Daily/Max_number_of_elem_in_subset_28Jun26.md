@@ -139,45 +139,30 @@ where `k` is the number of distinct elements.
 class Solution {
 public:
     int maximumLength(vector<int>& nums) {
-        unordered_map<int,int> mpp;
-
-        for (auto it : nums)
-            ++mpp[it];
-
+        unordered_map<int,int>mpp;
+        for(auto it: nums) ++mpp[it];
         int maxlen = 1;
 
-        // Special handling for value 1
-        if (mpp.count(1)) {
-            if (mpp[1] & 1)
-                maxlen = max(maxlen, mpp[1]);
-            else
-                maxlen = max(maxlen, mpp[1] - 1);
+        //Specila case for 1
+        if(mpp.count(1)){
+            if(mpp[1]&1) maxlen = max(maxlen, mpp[1]);
+            else maxlen = max(maxlen,mpp[1] - 1);
         }
 
-        for (auto it : mpp) {
-            long long val = it.first;
-
-            if (val == 1)
-                continue;
-
+        for(auto it: mpp){
+            long val = it.first;
+            if(val==1) continue;
             int len = 0;
 
-            while (val <= 1000000000LL &&
-                   mpp.count(val) &&
-                   mpp[val] >= 2) {
-
-                len += 2;
-                val = val * val;
+            while(val<=1000000000L && mpp.count(val)  && mpp[val]>=2){
+                len = len + 2;
+                val = val*val;
             }
 
-            if (val <= 1000000000LL &&
-                mpp.count(val) &&
-                mpp[val] == 1)
-                len += 1;
-            else
-                len -= 1;
+            if(val<=1000000000L && mpp.count(val) && mpp[val]==1) len += 1;
+            else len -= 1;
 
-            maxlen = max(maxlen, len);
+            maxlen = max(maxlen,len);
         }
 
         return maxlen;
